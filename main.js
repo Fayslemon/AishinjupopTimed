@@ -1,115 +1,171 @@
-// References to DOM elements
-const popcat = document.querySelector("#popcat");
-const btn = document.querySelector("#btn");
-const scoreDisplay = document.querySelector("#score");
-const timerDisplay = document.querySelector("#timer");
-const restartBtn = document.querySelector("#restartBtn");
+// ELEMENTS
+const popcat = document.getElementById("popcat");
+const btn = document.getElementById("btn");
+const scoreDisplay = document.getElementById("score");
+const timerDisplay = document.getElementById("timer");
+const restartBtn = document.getElementById("restartBtn");
+const highscoreDisplay = document.getElementById("highscore");
+const secretMessage = document.getElementById("secretMessage");
 
-// Score variable
-let score = 0;
-
-// The two images of the POP CAT
+// IMAGES
 const openMouthImg = "./images/open.png";
 const closeMouthImg = "./images/close.png";
 
-// PRELOAD IMAGES
-const openImg = new Image();
-openImg.src = openMouthImg;
+// SOUNDS
+const openSound = new Audio("./sound/sound-open.mp3");
+const closeSound = new Audio("./sound/sound-close.mp3");
 
-const closeImg = new Image();
-closeImg.src = closeMouthImg;
-
-// The two Popping sounds
-const openMouthSound = new Audio("./sound/sound-open.mp3");
-const closeMouthSound = new Audio("./sound/sound-close.mp3");
-
-// Timer variables
-let timeLeft = 30; // seconds
+// GAME VARIABLES
+let score = 0;
+let timeLeft = 30;
 let timerRunning = false;
 let timerInterval;
 
-// Update timer display
-function updateTimerDisplay() {
-    timerDisplay.textContent = `Time: ${timeLeft}s`;
+// HIGHSCORE
+let highscore = localStorage.getItem("popcatHighscore") || 0;
+highscoreDisplay.textContent = "High Score: " + highscore;
+
+// TIMER DISPLAY
+function updateTimer() {
+    timerDisplay.textContent = "Time: " + timeLeft + "s";
 }
 
-// Start the game
+// START GAME
 function startGame() {
-    if (!timerRunning) {
-        timerRunning = true;
-        timeLeft = 30;
-        score = 0;
-        scoreDisplay.textContent = score;
-        updateTimerDisplay();
-        btn.disabled = false;
-        restartBtn.style.display = "none"; // hide restart button during play
 
-        // Start countdown
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            updateTimerDisplay();
+    if (timerRunning) return;
 
-            if (timeLeft <= 0) {
-                endGame();
-            }
-        }, 1000);
-    }
+    timerRunning = true;
+    score = 0;
+    timeLeft = 30;
+
+    scoreDisplay.textContent = score;
+    updateTimer();
+
+    btn.disabled = false;
+    restartBtn.style.display = "none";
+    secretMessage.style.display = "none";
+
+    timerInterval = setInterval(() => {
+
+        timeLeft--;
+        updateTimer();
+
+        if (timeLeft <= 0) {
+            endGame();
+        }
+
+    }, 1000);
 }
 
-// End the game
+// END GAME
 function endGame() {
+
     clearInterval(timerInterval);
     timerRunning = false;
+
     btn.disabled = true;
-    timerDisplay.textContent = "Time's up!";
-    scoreDisplay.textContent = `Final Score: ${score}`;
-    restartBtn.style.display = "inline-block"; // show restart button
+
+    timerDisplay.textContent = "Time's Up!";
+    scoreDisplay.textContent = "Final Score: " + score;
+
+    restartBtn.style.display = "block";
+
+    // SECRET MESSAGE
+    if (score === 143) {
+
+        secretMessage.style.display = "block";
+
+        setTimeout(() => {
+            alert("Achievement unlocked: A little message from lemon🍋");
+        }, 300);
+    }
+
+    // SAVE HIGHSCORE
+    if (score > highscore) {
+        highscore = score;
+        localStorage.setItem("popcatHighscore", highscore);
+        highscoreDisplay.textContent = "High Score: " + highscore;
+    }
+
 }
 
-// Event Handlers (Desktops)
-btn.addEventListener("mousedown", () => {
-    if (!timerRunning) startGame();
-    openMouth();
-});
-btn.addEventListener("mouseup", closeMouth);
-
-// Event Handlers (Touch Screens)
-btn.addEventListener("touchstart", function(e) {
-    e.preventDefault();
-    if (!timerRunning) startGame();
-    openMouth();
-});
-btn.addEventListener("touchend", function(e) {
-    e.preventDefault();
-    closeMouth();
-});
-
-// Functions
+// OPEN MOUTH
 function openMouth() {
-    if (!timerRunning) return;
-    popcat.src = openMouthImg;
-    openMouthSound.play();
 
-    // Increase score
+    if (!timerRunning) startGame();
+    if (!timerRunning) return;
+
+    popcat.src = openMouthImg;
+    popcat.style.transform = "scale(1.08)";
+
+    openSound.currentTime = 0;
+    openSound.play();
+
     score++;
     scoreDisplay.textContent = score;
 }
 
+// CLOSE MOUTH
 function closeMouth() {
+
     if (!timerRunning) return;
+
     popcat.src = closeMouthImg;
-    closeMouthSound.play();
+    popcat.style.transform = "scale(1)";
+
+    closeSound.currentTime = 0;
+    closeSound.play();
 }
 
-// Restart button click
+// BUTTON EVENTS
+btn.addEventListener("mousedown", openMouth);
+btn.addEventListener("mouseup", closeMouth);
+
+// MOBILE
+btn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    openMouth();
+});
+
+btn.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    closeMouth();
+});
+
+// KEYBOARD (ANTI HOLD CHEAT)
+document.addEventListener("keydown", (e) => {
+
+    if (e.code === "Space" && !e.repeat) {
+        openMouth();
+    }
+
+});
+
+document.addEventListener("keyup", (e) => {
+
+    if (e.code === "Space") {
+        closeMouth();
+    }
+
+});
+
+// RESTART BUTTON
 restartBtn.addEventListener("click", () => {
-    // Reset everything
+
     popcat.src = closeMouthImg;
+
     score = 0;
-    scoreDisplay.textContent = score;
     timeLeft = 30;
-    updateTimerDisplay();
+
+    scoreDisplay.textContent = score;
+    updateTimer();
+
     btn.disabled = false;
+
     restartBtn.style.display = "none";
-    timerRunning = false; // next click will start the game again
+    secretMessage.style.display = "none";
+
+    timerRunning = false;
+
 });
