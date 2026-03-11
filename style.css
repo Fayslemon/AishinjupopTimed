@@ -1,136 +1,81 @@
 body {
-
-height: 100vh;
-
-display: flex;
-justify-content: center;
-align-items: center;
-
-background: linear-gradient(135deg,#c3a6ff,#9b84f1);
-
-margin: 0;
-
-font-family: Helvetica, Arial, sans-serif;
-
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg,#c3a6ff,#9b84f1);
+    margin: 0;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .wrapper {
-
-display: flex;
-flex-direction: column;
-align-items: center;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
-/* TIMER */
 
 #timer {
-
-font-size: 2.5em;
-color: white;
-margin-bottom: 10px;
-
+    font-size: 2.5em;
+    color: white;
+    margin-bottom: 10px;
 }
-
-/* SCORE */
 
 #score {
-
-font-size: 4em;
-color: white;
-margin: 0;
-
+    font-size: 4em;
+    color: white;
+    margin: 0;
 }
-
-/* HIGHSCORE */
 
 #highscore {
-
-color: yellow;
-margin-top: 10px;
-
+    color: yellow;
+    margin-top: 10px;
 }
-
-/* POPCAT */
 
 #popcat {
-
-width: 400px;
-margin-top: 20px;
-
-transition: transform 0.05s;
-
+    width: 400px;
+    margin-top: 20px;
+    transition: transform 0.05s;
 }
 
-/* BUTTON */
-
 #btn {
-
-width: 160px;
-height: 70px;
-
-font-size: 2em;
-
-margin-top: 30px;
-
-border-radius: 30px;
-
-border: 3px solid white;
-
-background: transparent;
-
-color: white;
-
-cursor: pointer;
-
+    width: 160px;
+    height: 70px;
+    font-size: 2em;
+    margin-top: 30px;
+    border-radius: 30px;
+    border: 3px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
 }
 
 #btn:active {
-
-transform: scale(0.95);
-
+    transform: scale(0.95);
 }
 
-/* RESTART */
-
 #restartBtn {
-
-display: none;
-
-margin-top: 20px;
-
-width: 180px;
-height: 60px;
-
-font-size: 1.4em;
-
-border-radius: 30px;
-
-border: 3px solid white;
-
-background: transparent;
-
-color: white;
-
-cursor: pointer;
-
+    display: none;
+    margin-top: 20px;
+    width: 180px;
+    height: 60px;
+    font-size: 1.4em;
+    border-radius: 30px;
+    border: 3px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
 }
 
 #restartBtn:hover {
-
-background: rgba(255,255,255,0.2);
-
+    background: rgba(255,255,255,0.2);
 }
-
-/* MOBILE */
 
 @media (max-width:480px){
-
-#popcat{
-width:220px;
+    #popcat {
+        width:220px;
+    }
 }
 
-}
 /* SECRET MESSAGE */
 #secretMessage {
     display: none;
