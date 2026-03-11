@@ -71,7 +71,7 @@ function endGame() {
     if (score === 143) {
         secretMessage.style.display = "block";
         setTimeout(() => {
-            alert("Achievement unlocked: Lemon 🍋");
+            alert("Achievement unlocked: A little message from lemon🍋");
         }, 300);
     }
 
