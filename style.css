@@ -1,107 +1,144 @@
-/* BODY & BACKGROUND */
 body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    /* Soft purple gradient background */
-    background: linear-gradient(135deg, #c3a6ff, #9b84f1);
+height: 100vh;
 
-    /* Optional smooth transition if you animate later */
-    transition: background 0.5s;
+display: flex;
+justify-content: center;
+align-items: center;
+
+background: linear-gradient(135deg,#c3a6ff,#9b84f1);
+
+margin: 0;
+
+font-family: Helvetica, Arial, sans-serif;
+
 }
 
-/* WRAPPER */
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
-/* SCORE */
-#score {
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
-    font-size: 4em;
-    color: white;
-    margin-bottom: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+
 }
 
 /* TIMER */
+
 #timer {
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
-    font-size: 2.5em;
-    color: white;
-    margin-bottom: 10px;
+
+font-size: 2.5em;
+color: white;
+margin-bottom: 10px;
+
 }
 
-/* POPCAT IMAGE */
+/* SCORE */
+
+#score {
+
+font-size: 4em;
+color: white;
+margin: 0;
+
+}
+
+/* HIGHSCORE */
+
+#highscore {
+
+color: yellow;
+margin-top: 10px;
+
+}
+
+/* POPCAT */
+
 #popcat {
-    width: 400px;
+
+width: 400px;
+margin-top: 20px;
+
+transition: transform 0.05s;
+
 }
 
-/* POP BUTTON */
+/* BUTTON */
+
 #btn {
-    width: 150px;
-    height: 70px;
-    font-size: 2em;
-    letter-spacing: 3px;
-    border: 3px solid #E0D0C6;
-    background-color: transparent;
-    color: #E0D0C6;
-    margin-top: 40px;
-    user-select: none;
-    border-radius: 30px;
-    cursor: pointer;
-}
 
-#btn:focus {
-    outline: none;
+width: 160px;
+height: 70px;
+
+font-size: 2em;
+
+margin-top: 30px;
+
+border-radius: 30px;
+
+border: 3px solid white;
+
+background: transparent;
+
+color: white;
+
+cursor: pointer;
+
 }
 
 #btn:active {
-    border: 3px solid darkgray;
-    color: darkgray;
+
+transform: scale(0.95);
+
 }
 
-/* RESTART BUTTON */
+/* RESTART */
+
 #restartBtn {
-    width: 180px;
-    height: 60px;
-    font-size: 1.5em;
-    border: 3px solid #E0D0C6;
-    background-color: transparent;
-    color: #E0D0C6;
-    border-radius: 30px;
-    cursor: pointer;
-    user-select: none;
-    margin-top: 20px; /* space below pop button */
+
+display: none;
+
+margin-top: 20px;
+
+width: 180px;
+height: 60px;
+
+font-size: 1.4em;
+
+border-radius: 30px;
+
+border: 3px solid white;
+
+background: transparent;
+
+color: white;
+
+cursor: pointer;
+
 }
 
 #restartBtn:hover {
-    color: white;
-    border-color: white;
+
+background: rgba(255,255,255,0.2);
+
 }
 
-#restartBtn:focus {
-    outline: none;
+/* MOBILE */
+
+@media (max-width:480px){
+
+#popcat{
+width:220px;
 }
 
-/* HIGHSCORE (optional) */
-#highscore {
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
+}
+/* SECRET MESSAGE */
+#secretMessage {
+    display: none;
+    margin-top: 25px;
     font-size: 1.8em;
-    color: yellow;
-    margin-top: 40px;
-}
-
-/* RESPONSIVE */
-@media only screen and (max-width: 480px) {
-    #popcat {
-        width: 200px;
-    }
+    color: white;
+    background: rgba(0,0,0,0.4);
+    padding: 15px 30px;
+    border-radius: 15px;
+    text-align: center;
 }
