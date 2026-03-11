@@ -7,14 +7,6 @@ const restartBtn = document.getElementById("restartBtn");
 const highscoreDisplay = document.getElementById("highscore");
 const secretMessage = document.getElementById("secretMessage");
 
-// IMAGES
-const openMouthImg = "./images/open.png";
-const closeMouthImg = "./images/close.png";
-
-// SOUNDS
-const openSound = new Audio("./sound/sound-open.mp3");
-const closeSound = new Audio("./sound/sound-close.mp3");
-
 // GAME VARIABLES
 let score = 0;
 let timeLeft = 30;
@@ -24,6 +16,17 @@ let timerInterval;
 // HIGHSCORE
 let highscore = localStorage.getItem("popcatHighscore") || 0;
 highscoreDisplay.textContent = "High Score: " + highscore;
+
+// PRELOAD IMAGES
+const openMouthImg = new Image();
+openMouthImg.src = "./images/open.png?v=1.0";
+
+const closeMouthImg = new Image();
+closeMouthImg.src = "./images/close.png?v=1.0";
+
+// PRELOAD SOUNDS
+const openSound = new Audio("./sound/sound-open.mp3?v=1.0");
+const closeSound = new Audio("./sound/sound-close.mp3?v=1.0");
 
 // TIMER DISPLAY
 function updateTimer() {
@@ -85,10 +88,13 @@ function openMouth() {
     if (!timerRunning) startGame();
     if (!timerRunning) return;
 
-    popcat.src = openMouthImg;
+    popcat.src = openMouthImg.src;
     popcat.style.transform = "scale(1.08)";
 
-    try { openSound.currentTime = 0; openSound.play(); } catch(err){}
+    try { 
+        openSound.currentTime = 0; 
+        openSound.play(); 
+    } catch(err){ console.warn("Audio blocked:", err); }
 
     score++;
     scoreDisplay.textContent = score;
@@ -97,10 +103,13 @@ function openMouth() {
 function closeMouth() {
     if (!timerRunning) return;
 
-    popcat.src = closeMouthImg;
+    popcat.src = closeMouthImg.src;
     popcat.style.transform = "scale(1)";
 
-    try { closeSound.currentTime = 0; closeSound.play(); } catch(err){}
+    try { 
+        closeSound.currentTime = 0; 
+        closeSound.play(); 
+    } catch(err){ console.warn("Audio blocked:", err); }
 }
 
 // BUTTON EVENTS
@@ -111,7 +120,7 @@ btn.addEventListener("mouseup", closeMouth);
 btn.addEventListener("touchstart", (e)=>{e.preventDefault(); openMouth();});
 btn.addEventListener("touchend", (e)=>{e.preventDefault(); closeMouth();});
 
-// KEYBOARD (SPACEBAR) - anti-cheat
+// KEYBOARD (SPACEBAR) - prevent holding cheat
 let spaceHeld = false;
 document.addEventListener("keydown", (e)=>{
     if(e.code==="Space" && !spaceHeld){
@@ -128,7 +137,7 @@ document.addEventListener("keyup", (e)=>{
 
 // RESTART BUTTON
 restartBtn.addEventListener("click", ()=>{
-    popcat.src = closeMouthImg;
+    popcat.src = closeMouthImg.src;
 
     score = 0;
     timeLeft = 30;
