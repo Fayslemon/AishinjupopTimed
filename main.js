@@ -32,7 +32,6 @@ function updateTimer() {
 
 // START GAME
 function startGame() {
-
     if (timerRunning) return;
 
     timerRunning = true;
@@ -47,20 +46,14 @@ function startGame() {
     secretMessage.style.display = "none";
 
     timerInterval = setInterval(() => {
-
         timeLeft--;
         updateTimer();
-
-        if (timeLeft <= 0) {
-            endGame();
-        }
-
+        if (timeLeft <= 0) endGame();
     }, 1000);
 }
 
 // END GAME
 function endGame() {
-
     clearInterval(timerInterval);
     timerRunning = false;
 
@@ -73,11 +66,9 @@ function endGame() {
 
     // SECRET MESSAGE
     if (score === 143) {
-
         secretMessage.style.display = "block";
-
         setTimeout(() => {
-            alert("Achievement unlocked: A little message from lemon🍋");
+            alert("Achievement unlocked: Lemon 🍋");
         }, 300);
     }
 
@@ -87,35 +78,29 @@ function endGame() {
         localStorage.setItem("popcatHighscore", highscore);
         highscoreDisplay.textContent = "High Score: " + highscore;
     }
-
 }
 
-// OPEN MOUTH
+// OPEN / CLOSE MOUTH
 function openMouth() {
-
     if (!timerRunning) startGame();
     if (!timerRunning) return;
 
     popcat.src = openMouthImg;
     popcat.style.transform = "scale(1.08)";
 
-    openSound.currentTime = 0;
-    openSound.play();
+    try { openSound.currentTime = 0; openSound.play(); } catch(err){}
 
     score++;
     scoreDisplay.textContent = score;
 }
 
-// CLOSE MOUTH
 function closeMouth() {
-
     if (!timerRunning) return;
 
     popcat.src = closeMouthImg;
     popcat.style.transform = "scale(1)";
 
-    closeSound.currentTime = 0;
-    closeSound.play();
+    try { closeSound.currentTime = 0; closeSound.play(); } catch(err){}
 }
 
 // BUTTON EVENTS
@@ -123,36 +108,26 @@ btn.addEventListener("mousedown", openMouth);
 btn.addEventListener("mouseup", closeMouth);
 
 // MOBILE
-btn.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    openMouth();
-});
+btn.addEventListener("touchstart", (e)=>{e.preventDefault(); openMouth();});
+btn.addEventListener("touchend", (e)=>{e.preventDefault(); closeMouth();});
 
-btn.addEventListener("touchend", (e) => {
-    e.preventDefault();
-    closeMouth();
-});
-
-// KEYBOARD (ANTI HOLD CHEAT)
-document.addEventListener("keydown", (e) => {
-
-    if (e.code === "Space" && !e.repeat) {
+// KEYBOARD (SPACEBAR) - anti-cheat
+let spaceHeld = false;
+document.addEventListener("keydown", (e)=>{
+    if(e.code==="Space" && !spaceHeld){
+        spaceHeld = true;
         openMouth();
     }
-
 });
-
-document.addEventListener("keyup", (e) => {
-
-    if (e.code === "Space") {
+document.addEventListener("keyup", (e)=>{
+    if(e.code==="Space"){
+        spaceHeld = false;
         closeMouth();
     }
-
 });
 
 // RESTART BUTTON
-restartBtn.addEventListener("click", () => {
-
+restartBtn.addEventListener("click", ()=>{
     popcat.src = closeMouthImg;
 
     score = 0;
@@ -162,10 +137,8 @@ restartBtn.addEventListener("click", () => {
     updateTimer();
 
     btn.disabled = false;
-
     restartBtn.style.display = "none";
     secretMessage.style.display = "none";
 
     timerRunning = false;
-
 });
